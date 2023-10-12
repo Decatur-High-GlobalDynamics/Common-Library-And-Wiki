@@ -1,3 +1,5 @@
+.vscode/
+
 # This gitignore has been specially created by the WPILib team.
 # If you remove items from this file, intellisense might break.
 
@@ -170,3 +172,4 @@ out/
 
 # Simulation GUI and other tools window save file
 *-window.json
+
