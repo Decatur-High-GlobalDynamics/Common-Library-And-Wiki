@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import frc.onboarding.Coder;
+import frc.onboarding.Mechnical;
 import frc.onboarding.Person;
 import frc.robot.RobotContainer;
 
@@ -32,8 +33,22 @@ public class PolymorphismTest {
     }
 
     @Test
-    void testCoderIsPerson() {
+    void testCoderPersonHasJob() {
         Person coder = new Coder(0,0);
-        assertNotNull(coder, "Person can be instantiated as a coder.");
+        assertEquals(coder.job, "Not Robot coding", "Job is not correct.");
     }
+
+    @Test
+    void testMechanicalPersonHasSpecialty() {
+        Person mechnical = new Mechnical(0,0);
+        assertEquals(mechnical.hasSpecialty, Boolean.TRUE);
+    }
+
+    @Test
+    void testRegularPersonHasNoSpecialty() {
+        Person person = new Person(0,0);
+        assertEquals(person.hasSpecialty, Boolean.FALSE);
+    }
+
+    
 }

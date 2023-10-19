@@ -12,8 +12,8 @@ public class Person {
 
     public double heightInInches;
     public double weightInPounds;
-    String job;
-    Boolean hasSpecialty;
+    public String job;
+    public Boolean hasSpecialty;
     
     public Person(double heightInInches, double weightInPounds) {
         this.heightInInches = heightInInches;
