@@ -35,7 +35,7 @@ public class PolymorphismTest {
     @Test
     void testCoderPersonHasJob() {
         Person coder = new Coder(0,0);
-        assertEquals(coder.job, "Not Robot coding", "Job is not correct.");
+        assertEquals(coder.job, "Robot coding", "Job is not correct.");
     }
 
     @Test
