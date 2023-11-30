@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer
 {
 
-	private final static ShuffleboardTab shuffleboard = Shuffleboard.getTab("Tab 1");
+	public final static ShuffleboardTab shuffleboard = Shuffleboard.getTab("Tab 1");
 
 	private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
