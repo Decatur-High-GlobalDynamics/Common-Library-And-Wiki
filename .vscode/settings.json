@@ -7,5 +7,7 @@
         "editor.insertSpaces": false,
         "editor.detectIndentation": false
     },
-    "editor.stickyTabStops": true
+    "editor.stickyTabStops": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
 }
