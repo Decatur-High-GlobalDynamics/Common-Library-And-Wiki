@@ -13,52 +13,52 @@ import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 
 public class GoodDriveDistanceAuto extends CommandBase
 {
-    private double distance;
+	private double distance;
 
-    SwerveDriveSubsystem s_Swerve;
+	SwerveDriveSubsystem s_Swerve;
 
-    private double speed;
+	private double speed;
 
-    private double targetPosition;
+	private double targetPosition;
 
-    public GoodDriveDistanceAuto(double distance, double speed, SwerveDriveSubsystem s_Swerve)
-    {
-        this.distance = distance;
-        this.speed = speed;
-        this.s_Swerve = s_Swerve;
+	public GoodDriveDistanceAuto(double distance, double speed, SwerveDriveSubsystem s_Swerve)
+	{
+		this.distance = distance;
+		this.speed = speed;
+		this.s_Swerve = s_Swerve;
 
-        addRequirements(s_Swerve);
-    }
+		addRequirements(s_Swerve);
+	}
 
-    @Override
-    public void initialize()
-    {
-        targetPosition = s_Swerve.getPose().getX() + distance;
-    }
+	@Override
+	public void initialize()
+	{
+		targetPosition = s_Swerve.getPose().getX() + distance;
+	}
 
-    @Override
-    public void execute()
-    {
-        SmartDashboard.putNumber("Auto Drive Target X", targetPosition);
-        SmartDashboard.putNumber("Swerve Pose X", s_Swerve.getPose().getX());
+	@Override
+	public void execute()
+	{
+		SmartDashboard.putNumber("Auto Drive Target X", targetPosition);
+		SmartDashboard.putNumber("Swerve Pose X", s_Swerve.getPose().getX());
 
-        s_Swerve.drive(new Translation2d(-speed, 0).times(SwerveConstants.Swerve.AUTO_SPEED), 0,
-                /*
-                 * !robotCentricSup . getAsBoolean (),
-                 */ true, // field
-                          // relative
-                          // is
-                          // always
-                          // on
-                true);
-    }
+		s_Swerve.drive(new Translation2d(-speed, 0).times(SwerveConstants.AUTO_SPEED), 0,
+				/*
+				 * !robotCentricSup . getAsBoolean (),
+				 */ true, // field
+							// relative
+							// is
+							// always
+							// on
+				true);
+	}
 
-    @Override
-    public boolean isFinished()
-    {
-        if (distance > 0)
-            return (s_Swerve.getPose().getX() > targetPosition);
-        else
-            return (s_Swerve.getPose().getX() < targetPosition);
-    }
+	@Override
+	public boolean isFinished()
+	{
+		if (distance > 0)
+			return (s_Swerve.getPose().getX() > targetPosition);
+		else
+			return (s_Swerve.getPose().getX() < targetPosition);
+	}
 }
