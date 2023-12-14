@@ -1,9 +1,9 @@
-package frc.lib.modules.swervedrive;
+package frc.lib.core.util;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 
-
+import frc.lib.modules.swervedrive.SwerveConstants;
 
 /** Sets motor usage for a Spark Max motor controller */
 public class CANSparkMaxUtil

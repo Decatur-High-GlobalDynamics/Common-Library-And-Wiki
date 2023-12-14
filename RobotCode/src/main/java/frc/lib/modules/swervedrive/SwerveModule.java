@@ -5,8 +5,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.lib.core.motors.TeamSparkMAX;
-import frc.lib.modules.swervedrive.CANCoderUtil.CCUsage;
-import frc.lib.modules.swervedrive.CANSparkMaxUtil.Usage;
+import frc.lib.core.util.CANCoderUtil;
+import frc.lib.core.util.CANSparkMaxUtil;
+import frc.lib.core.util.CTREModuleState;
+import frc.lib.core.util.Conversions;
+import frc.lib.core.util.CANCoderUtil.CCUsage;
+import frc.lib.core.util.CANSparkMaxUtil.Usage;
 import frc.robot.Robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -73,13 +77,15 @@ public class SwerveModule
         // using a PercentOutput of motor power
         if (isOpenLoop)
         {
-            double percentOutput = desiredState.speedMetersPerSecond / SwerveConstants.Swerve.maxSpeed;
+            double percentOutput = desiredState.speedMetersPerSecond
+                    / SwerveConstants.Swerve.maxSpeed;
             mDriveMotor.set(ControlMode.PercentOutput, percentOutput);
         }
         else
         {
             double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond,
-                    SwerveConstants.Swerve.wheelCircumference, SwerveConstants.Swerve.driveGearRatio);
+                    SwerveConstants.Swerve.wheelCircumference,
+                    SwerveConstants.Swerve.driveGearRatio);
             mDriveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
                     feedforward.calculate(desiredState.speedMetersPerSecond));
         }
@@ -127,7 +133,8 @@ public class SwerveModule
         mAngleMotor.setSmartCurrentLimit(SwerveConstants.Swerve.angleContinuousCurrentLimit);
         mAngleMotor.setInverted(SwerveConstants.Swerve.angleMotorInvert);
         mAngleMotor.setIdleMode(SwerveConstants.Swerve.angleNeutralMode);
-        integratedAngleEncoder.setPositionConversionFactor(SwerveConstants.Swerve.angleConversionFactor);
+        integratedAngleEncoder
+                .setPositionConversionFactor(SwerveConstants.Swerve.angleConversionFactor);
         angleController.setP(SwerveConstants.Swerve.angleKP);
         angleController.setI(SwerveConstants.Swerve.angleKI);
         angleController.setD(SwerveConstants.Swerve.angleKD);
@@ -149,17 +156,15 @@ public class SwerveModule
 
     public SwerveModuleState getState()
     {
-        return new SwerveModuleState(
-                Conversions.falconToMPS(mDriveMotor.getSelectedSensorVelocity(),
-                        SwerveConstants.Swerve.wheelCircumference, SwerveConstants.Swerve.driveGearRatio),
-                getAngle());
+        return new SwerveModuleState(Conversions.falconToMPS(
+                mDriveMotor.getSelectedSensorVelocity(), SwerveConstants.Swerve.wheelCircumference,
+                SwerveConstants.Swerve.driveGearRatio), getAngle());
     }
 
     public SwerveModulePosition getPosition()
     {
-        return new SwerveModulePosition(
-                Conversions.falconToMeters(mDriveMotor.getSelectedSensorPosition(),
-                        SwerveConstants.Swerve.wheelCircumference, SwerveConstants.Swerve.driveGearRatio),
-                getAngle());
+        return new SwerveModulePosition(Conversions.falconToMeters(
+                mDriveMotor.getSelectedSensorPosition(), SwerveConstants.Swerve.wheelCircumference,
+                SwerveConstants.Swerve.driveGearRatio), getAngle());
     }
 }

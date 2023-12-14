@@ -1,8 +1,8 @@
 package frc.lib.modules.swervedrive;
 
 import frc.lib.modules.swervedrive.SwerveModule;
-import frc.lib.modules.Constants;
-import frc.robot.Ports;
+import frc.lib.modules.swervedrive.SwerveConstants;
+import frc.lib.modules.swervedrive.SwervePorts;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -27,14 +27,14 @@ public class SwerveDriveSubsystem extends SubsystemBase
     public SwerveModule[] mSwerveMods;
     // public AHRS gyro; // AHRS is the NavX class
     public Pigeon2 gyro;
-    public double maxModuleSpeed = Constants.Swerve.maxSpeed;
+    public double maxModuleSpeed = SwerveConstants.Swerve.maxSpeed;
 
     public double gyroOffset = 0;
 
     public SwerveDriveSubsystem()
     {
         // gyro = new AHRS(Port.kMXP); // need to check this. port for gyro
-        gyro = new Pigeon2(Ports.GYRO);
+        gyro = new Pigeon2(SwervePorts.GYRO);
         // pls check ahrs gyro setup EDIT: gyro should automatically calibrate once
         // powered on
         gyro.configFactoryDefault();
@@ -45,10 +45,10 @@ public class SwerveDriveSubsystem extends SubsystemBase
         // swerve module construction
         mSwerveMods = new SwerveModule[]
         {
-                new SwerveModule(0, Constants.Swerve.Mod0.constants),
-                new SwerveModule(1, Constants.Swerve.Mod1.constants),
-                new SwerveModule(2, Constants.Swerve.Mod2.constants),
-                new SwerveModule(3, Constants.Swerve.Mod3.constants)
+                new SwerveModule(0, SwerveConstants.Swerve.Mod0.constants),
+                new SwerveModule(1, SwerveConstants.Swerve.Mod1.constants),
+                new SwerveModule(2, SwerveConstants.Swerve.Mod2.constants),
+                new SwerveModule(3, SwerveConstants.Swerve.Mod3.constants)
         };
 
         /*
@@ -59,7 +59,7 @@ public class SwerveDriveSubsystem extends SubsystemBase
         resetModulesToAbsolute();
 
         // construct odometry (full robot position/incorporated module states)
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(),
+        swerveOdometry = new SwerveDriveOdometry(SwerveConstants.Swerve.swerveKinematics, getYaw(),
                 getModulePositions());
     }
 
@@ -67,19 +67,23 @@ public class SwerveDriveSubsystem extends SubsystemBase
     {
         System.out.println("Setting angle offsets...");
 
-        double[] offsets = Constants.Swerve.ANGLE_OFFSETS;
+        double[] offsets = SwerveConstants.Swerve.ANGLE_OFFSETS;
 
-        Constants.Swerve.Mod0.angleOffset = Rotation2d.fromDegrees(offsets[0] - (invert ? 180 : 0));
-        Constants.Swerve.Mod1.angleOffset = Rotation2d.fromDegrees(offsets[1] - (invert ? 180 : 0));
-        Constants.Swerve.Mod2.angleOffset = Rotation2d.fromDegrees(offsets[2] - (invert ? 180 : 0));
-        Constants.Swerve.Mod3.angleOffset = Rotation2d.fromDegrees(offsets[3] - (invert ? 180 : 0));
+        SwerveConstants.Swerve.Mod0.angleOffset = Rotation2d
+                .fromDegrees(offsets[0] - (invert ? 180 : 0));
+        SwerveConstants.Swerve.Mod1.angleOffset = Rotation2d
+                .fromDegrees(offsets[1] - (invert ? 180 : 0));
+        SwerveConstants.Swerve.Mod2.angleOffset = Rotation2d
+                .fromDegrees(offsets[2] - (invert ? 180 : 0));
+        SwerveConstants.Swerve.Mod3.angleOffset = Rotation2d
+                .fromDegrees(offsets[3] - (invert ? 180 : 0));
     }
 
     // main driving method. translation is change in every direction
     public void drive(Translation2d translation, double rotation, boolean fieldRelative,
             boolean isOpenLoop)
     {
-        SwerveModuleState[] swerveModuleStates = Constants.Swerve.swerveKinematics
+        SwerveModuleState[] swerveModuleStates = SwerveConstants.Swerve.swerveKinematics
                 .toSwerveModuleStates(fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(),
                                 translation.getY(), rotation, getYaw())
@@ -166,7 +170,7 @@ public class SwerveDriveSubsystem extends SubsystemBase
 
     public Rotation2d getYaw()
     {
-        return (Constants.Swerve.invertGyro)
+        return (SwerveConstants.Swerve.invertGyro)
                 ? Rotation2d.fromDegrees(360 - gyro.getYaw() + gyroOffset)
                 : Rotation2d.fromDegrees(gyro.getYaw() + gyroOffset);
     }
